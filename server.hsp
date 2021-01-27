@@ -1,0 +1,71 @@
+#include "hspsock.as"
+#include "d3m.hsp"
+#include "hgimg3.as"
+chatli = ""
+	title "TCPサーバーテスト"
+;ほぼサンプルプログラムです()
+*main
+	objsize 300,300
+	listbox banme,100,chatli
+	port=810
+	ipget
+	mes "IPアドレス:"+refstr
+	mes "ポート"+port+"で接続を待っています..."
+	sockmake 0,port
+	if stat : dialog "Socket error": goto *errbye
+
+	a=0
+	repeat
+	sockwait 0
+	title "CHK="+stat+"/"+a
+	if stat>1 : goto *bye
+	if stat=0 : break
+	a+
+	wait 10
+	loop
+	cls
+	mes "接続しました。("+refstr+")"
+	wait 100
+
+	loginsu = loginsu + 1
+	mm = "あなたは"+loginsu+"人目のログインです！"
+	;
+	wait 50
+	sockput "最新チャット>"
+	mes "["+mm+"] を送信しました。"
+	name = ""
+	repeat
+	sockcheck 0
+	if stat=0 : break
+	wait 10
+	loop
+	sockget name
+	
+	mesa = "."
+	sockput	mesa,0
+	if name = 0 : goto *chat
+	if name = 1 : goto *chatkousin
+	mes name+"さんがログイン"
+	goto *bye
+*chat
+	repeat
+	sockcheck 0
+	if stat=0 : break
+	wait 10
+	loop
+	chatd = ""
+	sockget chatd
+	chatli = chatd+"\n"+chatli
+	mes "チャットを受信"
+*chatkousin
+	mes "チャットを送信"
+	wait 10
+	sockput chatli,0
+*bye
+	sockclose
+	goto *main				; サーバーを続ける
+
+*errbye
+	sockclose
+	mes "終了"
+	stop
