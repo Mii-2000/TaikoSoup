@@ -1,11 +1,12 @@
 /////////////////
 // TaikoSoup ////
 /////////////////
-
+bpm = 0
+off = 0
 #include "d3m.hsp"
 #include "hgimg3.as"
 #include "hspsock.as"
-name = "‚Ç‚ñ‚¾"
+name = "ã©ã‚“ã "
 	chatli = ""
 notesel name
 exist "config.txt"
@@ -16,38 +17,54 @@ notesel debug
 noteload "debug.txt"
 *menu
 	mmstop
-    title "TaikoSoup `TJAƒVƒ~ƒ…ƒŒ[ƒ^`"
+    title "TaikoSoup ï½TJAã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿ï½"
     picload "Skin\\Taiko\\title.png"
     picload "Skin\\Taiko\\BackNP.png",85
     pos 70,400
-    font "‚c‚e‚oŠ¨’à—¬",20
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
     mes name
     mmload "Skin\\Taiko\\title.wav",1,1
     mmplay 1
     objsize 150,25
     objmode 2
-    font "‚c‚e‚oŠ¨’à—¬",15
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
     button "Button Menu",*bmenu
     objsize 300,50
     pos 255,160
     objmode 2
-    font "‚c‚e‚oŠ¨’à—¬",15
-    button goto "ƒIƒ“ƒ‰ƒCƒ“ ƒ‚[ƒh",*lobby ;ƒƒr[‚ÉGoto
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+    button goto "ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ ãƒ¢ãƒ¼ãƒ‰",*lobby ;ãƒ­ãƒ“ãƒ¼ã«Goto
     pos 255,250
     objsize 300,50
-    button "’iˆÊ“¹ê",*Dan ;’iˆÊ“¹ê‚Égoto
+    button "æ®µä½é“å ´",*Dan ;æ®µä½é“å ´ã«goto
     pos 255,340
     objsize 300,50
-    button "‰‰‘tƒQ[ƒ€(‰¼)",*Enso ;‰‰‘tƒQ[ƒ€‚Égoto
+    button "æ¼”å¥ã‚²ãƒ¼ãƒ (ä»®)",*Enso ;æ¼”å¥ã‚²ãƒ¼ãƒ ã«goto
     pos 255,430
     objsize 300,50
-    button "List(TEST—p)",*list
+    button "List(TESTç”¨)",*list
     stop
 
 *Enso
 cls
-mmstop ;¡‚Ü‚Å—¬‚ê‚Ä‚¢‚½‰¹Šy‚ğ’â~
-pos 0,0
+mmstop ;ä»Šã¾ã§æµã‚Œã¦ã„ãŸéŸ³æ¥½ã‚’åœæ­¢
+bpm = double(bpm)
+dmmload music,0
+nowplay = 0
+startms = d3timer() + 5000
+bpm = 60000 / bpm / 8
+;addspr taiko,1,158,26,229,99,don
+off = double(off)
+off = off * 1000
+*ensobyousha
+nowmp = double(nowmp)
+	redraw 0
+	color 255, 255, 255
+	boxf
+	color 0, 0, 0
+	nowms = d3timer() - startms
+	nownp = nowms / bpm
+	pos 0,0
 picload "Skin\\Taiko\\BackE.png",80
 picload "Skin\\Taiko\\EnsoFR.png",72
 picload "Skin\\Taiko\\LaneB.png",73
@@ -57,13 +74,21 @@ picload "Skin\\Taiko\\Taiko.png",76
 picload "Skin\\Taiko\\Down.png",77
 picload "Skin\\Taiko\\Footer.png",78
 pos 38,198
-font "‚c‚e‚oŠ¨’à—¬",20
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
 mes name
-font "‚c‚e‚oŠ¨’à—¬",30
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
 pos 580,20
 mes titl
-dmmload music,0
-dmmplay 0
+	pos 0,0
+	mes nownp
+	mes nowms
+	mes nownp / 4
+	if off < nowms : dmmplay 0 : dmmdel 0
+	mes off
+	redraw 1
+	wait 1
+	goto *ensobyousha
+	
 stop
 
 *Dan
@@ -71,19 +96,19 @@ mmstop
 picload "Skin\\Taiko\\DanL.png"
 mmload "Skin\\Taiko\\DanM.mp3",12
 mmplay 12
-picload "Skin\\Taiko\\Dan1.png",1 //•¶š‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+picload "Skin\\Taiko\\Dan1.png",1 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 wait 62.5
-picload "Skin\\Taiko\\Dan2.png",9 //•¶š‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+picload "Skin\\Taiko\\Dan2.png",9 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 wait 62.5
-picload "Skin\\Taiko\\Dan3.png",3 //•¶š‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+picload "Skin\\Taiko\\Dan3.png",3 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 wait 62.5
-picload "Skin\\Taiko\\Dan4.png",4 //•¶š‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+picload "Skin\\Taiko\\Dan4.png",4 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 wait 62.5
 cls
 picload "Skin\\Taiko\\DanB.png"
 picload "Skin\\Taiko\\DanNP.png",81
 pos 73,403
-font "‚c‚e‚oŠ¨’à—¬",20
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
 mes name
 mmload "Skin\\Taiko\\Dan.wav",82,1
 mmplay 82
@@ -94,7 +119,7 @@ stop
 	picload "Skin\\Taiko\\select.png",6
 	pos 610,380
 	objsize 75,25
-	button "–ß‚é",*menu
+	button "æˆ»ã‚‹",*menu
 	pos 150,80
 	objsize 75,25
 	button "Credits",*Cre
@@ -103,13 +128,13 @@ stop
 	cls
 	picload "Skin\\Taiko\\backtitle.png"
 	picload "Skin\\Taiko\\online.png",9
-	adr="maikura.cf" ;Buachi‚Ì©‘îI‚ÉÚ‘±
+	adr="169.254.158.119" ;Buachiã®è‡ªå®…é¯–ã«æ¥ç¶š
     port=810
     sockopen 0,adr,port
     if stat : goto *offline
     pos 142,231
-    font "‚c‚e‚oŠ¨’à—¬",15
-    mes "ƒ‰ƒ“ƒLƒ“ƒO‚ÉÚ‘±’†..."
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+    mes "ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã«æ¥ç¶šä¸­..."
     a=0
     wait 50
     sockput name
@@ -142,8 +167,8 @@ stop
 	wait 100
 *main
 	cls
-	font "‚c‚e‚oŠ¨’à—¬",20
-	mes "XV’†‚Å‚·B‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢B"
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
 	sockopen 0,adr,port
 	chatil = ""
     jotai = "1"
@@ -151,14 +176,14 @@ stop
 	wait 200
 	sockget chatli,256
 	cls
-    font "‚c‚e‚oŠ¨’à—¬",20
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
 	picload "Skin\\Taiko\\lobby.png",1
 	mmstop
 	pos 0,280
 	objsize 810,50
 	listbox aiueo,100,chatli
 	objsize 100,25
-	button goto "‘—M",*say
+	button goto "é€ä¿¡",*say
 	pos 101,430
 	contex = ""
 	input contex,710 
@@ -169,18 +194,18 @@ stop
 	stop
 *say
 	cls
-	font "‚c‚e‚oŠ¨’à—¬",20
-	mes "ƒ`ƒƒƒbƒg‚ğXV’†‚Å‚·B‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢B"
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "ãƒãƒ£ãƒƒãƒˆã‚’æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
     sockopen 0,adr,port
     jotai = "0"
 	sockput jotai
 	wait 200
-	font "‚c‚e‚oŠ¨’à—¬",15
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
 	contex = name + " >> " + contex
 	sockput contex
 	cls
-	font "‚c‚e‚oŠ¨’à—¬",20
-	mes "ƒ`ƒƒƒbƒg‚ğXV’†‚Å‚·B‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢B"
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "ãƒãƒ£ãƒƒãƒˆã‚’æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
 	wait 30
 	goto *main
 *list
@@ -208,16 +233,16 @@ stop
     dmmplay 0,demo
 	objsize 300,50
 	objmode 2
-	font "‚c‚e‚oŠ¨’à—¬",20
-    button goto "ƒfƒ‚Ä¶",*list
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+    button goto "ãƒ‡ãƒ¢å†ç”Ÿ",*list
     objmode 2
-    font "‚c‚e‚oŠ¨’à—¬",20
-    button goto "‚±‚Ì‹È‚Å—V‚Ô",*load
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+    button goto "ã“ã®æ›²ã§éŠã¶",*load
     gyou = notefind("TITLE:",1)
-    if gyou = -1 : dialog "‚±‚ê‚Í•ˆ–Êƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ" : end
+    if gyou = -1 : dialog "ã“ã‚Œã¯è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“" : end
     noteget titl,gyou
     titl = strmid(titl,6,50)
-    font "‚c‚e‚oŠ¨’à—¬",30
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
     pos 300,0
     mes titl
     
@@ -225,23 +250,23 @@ stop
     noteget subtitl,subgyou
     subtitl = strmid(subtitl,9,50)
     if subgyou = -1 : subtitl = ""
-    font "‚c‚e‚oŠ¨’à—¬",15
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
     mes subtitl
     stop
 *load
     cls
     gyou = notefind("TITLE:",1)
-    if gyou = -1 : dialog "‚±‚ê‚Í•ˆ–Êƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ" : end
+    if gyou = -1 : dialog "ã“ã‚Œã¯è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“" : end
     noteget titl,gyou
     titl = strmid(titl,6,50)
-    font "‚c‚e‚oŠ¨’à—¬",30
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
     mes titl
     
     subgyou = notefind("SUBTITLE:",1)
     noteget subtitl,subgyou
     subtitl = strmid(subtitl,9,50)
     if subgyou = -1 : subtitl = ""
-    font "‚c‚e‚oŠ¨’à—¬",15
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
     mes subtitl
 
     bpmgyou = notefind("BPM:",1)
@@ -263,7 +288,266 @@ stop
     demo = double(demo)
     dmmini
     music = dele+ogg
-;ƒƒOƒCƒ“‚Ílobby•”•ª‚ÉˆÚs‚µ‚Ü‚µ‚½
+;ãƒ­ã‚°ã‚¤ãƒ³ã¯lobbyéƒ¨åˆ†ã«ç§»è¡Œã—ã¾ã—ãŸ
+
+    vo = 0
+    wait 100
+    repeat 100
+    vo = vo - 100
+    dmmvol 0,vo
+    wait 1
+    loop
+    dmmstop
+    dmmvol 0,0
+	goto *Enso
+*offline
+wait 100
+picload "Skin\\Taiko\\backtitle.png"
+picload "Skin\\Taiko\\offline.png",5
+pos 142,231
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+mes "é€šä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸ\nã‚µãƒ¼ãƒã¾ãŸã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã€ã‚µãƒ¼ãƒãƒ¼ãŒãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™"
+mmload "Skin\\Taiko\\offline.wav",4
+mmplay 4
+wait 200
+goto *menu
+stop
+
+*Cre
+dialog "System Creator\nBuachiæ§˜\nSkin Creator\nAruto/ã‚ã‚‹ã¨"
+stop
+
+    pos 255,250
+    objsize 300,50
+    button "æ®µä½é“å ´",*Dan ;æ®µä½é“å ´ã«goto
+    pos 255,340
+    objsize 300,50
+    button "æ¼”å¥ã‚²ãƒ¼ãƒ (ä»®)",*Enso ;æ¼”å¥ã‚²ãƒ¼ãƒ ã«goto
+    pos 255,430
+    objsize 300,50
+    button "List(TESTç”¨)",*list
+    stop
+
+*Enso
+cls
+mmstop ;ä»Šã¾ã§æµã‚Œã¦ã„ãŸéŸ³æ¥½ã‚’åœæ­¢
+pos 0,0
+picload "Skin\\Taiko\\BackE.png",80
+picload "Skin\\Taiko\\EnsoFR.png",72
+picload "Skin\\Taiko\\LaneB.png",73
+picload "Skin\\Taiko\\Enso1P.png",74
+picload "Skin\\Taiko\\EnsoNP.png",75
+picload "Skin\\Taiko\\Taiko.png",76
+picload "Skin\\Taiko\\Down.png",77
+picload "Skin\\Taiko\\Footer.png",78
+pos 38,198
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+mes name
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
+pos 580,20
+mes titl
+dmmload music,0
+dmmplay 0
+stop
+
+*Dan
+mmstop
+picload "Skin\\Taiko\\DanL.png"
+mmload "Skin\\Taiko\\DanM.mp3",12
+mmplay 12
+picload "Skin\\Taiko\\Dan1.png",1 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+wait 62.5
+picload "Skin\\Taiko\\Dan2.png",9 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+wait 62.5
+picload "Skin\\Taiko\\Dan3.png",3 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+wait 62.5
+picload "Skin\\Taiko\\Dan4.png",4 //æ–‡å­—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+wait 62.5
+cls
+picload "Skin\\Taiko\\DanB.png"
+picload "Skin\\Taiko\\DanNP.png",81
+pos 73,403
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+mes name
+mmload "Skin\\Taiko\\Dan.wav",82,1
+mmplay 82
+stop
+
+*bmenu
+	picload "Skin\\Taiko\\title.png"
+	picload "Skin\\Taiko\\select.png",6
+	pos 610,380
+	objsize 75,25
+	button "æˆ»ã‚‹",*menu
+	pos 150,80
+	objsize 75,25
+	button "Credits",*Cre
+	stop
+*lobby
+	cls
+	picload "Skin\\Taiko\\backtitle.png"
+	picload "Skin\\Taiko\\online.png",9
+	adr="maikura.cf" ;Buachiã®è‡ªå®…é¯–ã«æ¥ç¶š
+    port=810
+    sockopen 0,adr,port
+    if stat : goto *offline
+    pos 142,231
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+    mes "ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã«æ¥ç¶šä¸­..."
+    a=0
+    wait 50
+    sockput name
+    repeat
+    sockcheck 0
+    if stat=0 : break
+    wait 10
+    loop
+*logi
+    a=""
+    sockget a,64
+    if stat : dialog "socket error" : end
+    mane = ""
+    mes a
+    sockput name
+    repeat
+    sockcheck 0
+    if stat=0 : break
+    wait 10
+    loop
+    sockget mane
+    cls
+    sockclose
+*online
+	cls
+	picload "Skin\\Taiko\\backtitle.png"
+	picload "Skin\\Taiko\\onlineC.png",11
+	mmload "Skin\\Taiko\\onlineC.wav",6,1
+	mmplay 6
+	wait 100
+*main
+	cls
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
+	sockopen 0,adr,port
+	chatil = ""
+    jotai = "1"
+	sockput jotai
+	wait 200
+	sockget chatli,256
+	cls
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	picload "Skin\\Taiko\\lobby.png",1
+	mmstop
+	pos 0,280
+	objsize 810,50
+	listbox aiueo,100,chatli
+	objsize 100,25
+	button goto "é€ä¿¡",*say
+	pos 101,430
+	contex = ""
+	input contex,710 
+	objsel 2
+	pos 0,0
+	wait 1500
+	goto *main
+	stop
+*say
+	cls
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "ãƒãƒ£ãƒƒãƒˆã‚’æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
+    sockopen 0,adr,port
+    jotai = "0"
+	sockput jotai
+	wait 200
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+	contex = name + " >> " + contex
+	sockput contex
+	cls
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+	mes "ãƒãƒ£ãƒƒãƒˆã‚’æ›´æ–°ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚"
+	wait 30
+	goto *main
+*list
+	cls
+	mmstop
+	picload "Skin\\Taiko\\SongSelect.png"
+	objsize 300,200
+    dirlist tjafiles,"*.tja"
+    listbox banme,100,tjafiles
+    notesel tjafiles
+    noteget tjafilename,banme
+    noteload tjafilename
+    ogggyou = notefind("WAVE:",1)
+    dele = getpath(refstr,32)
+    noteget ogg,ogggyou
+    ogg = strmid(ogg,5,40)
+    demogyou = notefind("DEMOSTART:",1)
+    noteget demo,demogyou
+    demo = strmid(demo,10,20)
+    demo = double(demo)
+    dmmini
+    music = dele+ogg
+    dmmload music,0
+    demo = demo* 44000
+    dmmplay 0,demo
+	objsize 300,50
+	objmode 2
+	font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+    button goto "ãƒ‡ãƒ¢å†ç”Ÿ",*list
+    objmode 2
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",20
+    button goto "ã“ã®æ›²ã§éŠã¶",*load
+    gyou = notefind("TITLE:",1)
+    if gyou = -1 : dialog "ã“ã‚Œã¯è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“" : end
+    noteget titl,gyou
+    titl = strmid(titl,6,50)
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
+    pos 300,0
+    mes titl
+    
+    subgyou = notefind("SUBTITLE:",1)
+    noteget subtitl,subgyou
+    subtitl = strmid(subtitl,9,50)
+    if subgyou = -1 : subtitl = ""
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+    mes subtitl
+    stop
+*load
+    cls
+    gyou = notefind("TITLE:",1)
+    if gyou = -1 : dialog "ã“ã‚Œã¯è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“" : end
+    noteget titl,gyou
+    titl = strmid(titl,6,50)
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",30
+    mes titl
+    
+    subgyou = notefind("SUBTITLE:",1)
+    noteget subtitl,subgyou
+    subtitl = strmid(subtitl,9,50)
+    if subgyou = -1 : subtitl = ""
+    font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+    mes subtitl
+
+    bpmgyou = notefind("BPM:",1)
+    noteget bpm,bpmgyou
+    bpm = strmid(bpm,4,20)
+
+    offgyou = notefind("OFFSET:",1)
+    noteget off,offgyou
+    off = strmid(off,7,20)
+
+    ogggyou = notefind("WAVE:",1)
+    dele = getpath(refstr,32)
+    noteget ogg,ogggyou
+    ogg = strmid(ogg,5,40)
+
+    demogyou = notefind("DEMOSTART:",1)
+    noteget demo,demogyou
+    demo = strmid(demo,10,20)
+    demo = double(demo)
+    dmmini
+    music = dele+ogg
+;ãƒ­ã‚°ã‚¤ãƒ³ã¯lobbyéƒ¨åˆ†ã«ç§»è¡Œã—ã¾ã—ãŸ
 
     vo = 0
     wait 100
@@ -280,8 +564,8 @@ wait 100
 picload "Skin\\Taiko\\backtitle.png"
 picload "Skin\\Taiko\\offline.png",5
 pos 142,231
-font "‚c‚e‚oŠ¨’à—¬",15
-mes "’ÊM‚É¸”s‚µ‚Ü‚µ‚½\nƒT[ƒo‚Ü‚½‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ªƒIƒtƒ‰ƒCƒ“AƒT[ƒo[‚ªƒƒ“ƒeƒiƒ“ƒX’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·"
+font "ï¼¤ï¼¦ï¼°å‹˜äº­æµ",15
+mes "é€šä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸ\nã‚µãƒ¼ãƒã¾ãŸã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒã‚ªãƒ•ãƒ©ã‚¤ãƒ³ã€ã‚µãƒ¼ãƒãƒ¼ãŒãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™"
 mmload "Skin\\Taiko\\offline.wav",4
 mmplay 4
 wait 200
@@ -289,5 +573,5 @@ goto *menu
 stop
 
 *Cre
-dialog "System Creator\nBuachi—l\nSkin Creator\nAruto/‚ ‚é‚Æ"
+dialog "System Creator\nBuachiæ§˜\nSkin Creator\nAruto/ã‚ã‚‹ã¨"
 stop
