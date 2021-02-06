@@ -39,10 +39,7 @@ noteload "debug.txt"
     button "段位道場",*Dan ;段位道場にgoto
     pos 255,340
     objsize 300,50
-    button "演奏ゲーム(仮)",*Enso ;演奏ゲームにgoto
-    pos 255,430
-    objsize 300,50
-    button "List(TEST用)",*list
+    button "演奏ゲーム(仮)",*List ;演奏ゲームにgoto
     stop
 
 *Enso
