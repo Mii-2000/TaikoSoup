@@ -39,7 +39,7 @@ noteload "debug.txt"
     button "段位道場",*Dan ;段位道場にgoto
     pos 255,340
     objsize 300,50
-    button "演奏ゲーム(仮)",*List ;演奏ゲームにgoto
+    button "演奏ゲーム",*list ;演奏ゲームにgoto
     stop
 
 *Enso
@@ -53,6 +53,17 @@ bpm = 60000 / bpm / 8
 ;addspr taiko,1,158,26,229,99,don
 off = double(off)
 off = off * 1000
+picload "Skin\\Taiko\\Lo.png",21
+wait 50
+picload "Skin\\Taiko\\Lo1.png",22
+wait 50
+picload "Skin\\Taiko\\Lo2.png",23
+picload "Skin\\Taiko\\Lo3.png",24
+picload "Skin\\Taiko\\Lo4.png",25
+font "ＤＦＰ勘亭流",40
+pos 273,160
+mes titl
+wait 100
 *ensobyousha
 nowmp = double(nowmp)
 	redraw 0
@@ -76,7 +87,8 @@ mes name
 font "ＤＦＰ勘亭流",30
 pos 580,20
 mes titl
-	pos 0,0
+	pos 566,262
+	font "ＤＦＰ勘亭流",20
 	mes nownp
 	mes nowms
 	mes nownp / 4
