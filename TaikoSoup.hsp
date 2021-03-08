@@ -6,12 +6,14 @@ off = 0
 #include "d3m.hsp"
 #include "hgimg3.as"
 #include "hspsock.as"
-name = "どんだ"
-	chatli = ""
+
 notesel name
-exist "config.txt"
-if strsize = -1 : notesave "config.txt"
 noteload "config.txt"
+noteget name, 0
+
+notesel FN //Fontの名前をconfig.txtの2行目から取得
+noteload "font.txt"
+noteget FN, 0
 
 notesel debug
 noteload "debug.txt"
@@ -21,18 +23,18 @@ noteload "debug.txt"
     picload "Skin\\Taiko\\title.png"
     picload "Skin\\Taiko\\BackNP.png",85
     pos 70,400
-    font "ＤＦＰ勘亭流",20
+    font FN,20
     mes name
     mmload "Skin\\Taiko\\title.wav",1,1
     mmplay 1
     objsize 150,25
     objmode 2
-    font "ＤＦＰ勘亭流",15
+    font FN,15
     button "Button Menu",*bmenu
     objsize 300,50
     pos 255,160
     objmode 2
-    font "ＤＦＰ勘亭流",15
+    font FN,15
     button goto "オンライン モード",*lobby ;ロビーにGoto
     pos 255,250
     objsize 300,50
@@ -60,7 +62,7 @@ wait 50
 picload "Skin\\Taiko\\Lo2.png",23
 picload "Skin\\Taiko\\Lo3.png",24
 picload "Skin\\Taiko\\Lo4.png",25
-font "ＤＦＰ勘亭流",40
+font FN,40
 pos 273,160
 mes titl
 wait 100
@@ -82,13 +84,13 @@ picload "Skin\\Taiko\\Taiko.png",76
 picload "Skin\\Taiko\\Down.png",77
 picload "Skin\\Taiko\\Footer.png",78
 pos 38,198
-font "ＤＦＰ勘亭流",20
+font FN,20
 mes name
-font "ＤＦＰ勘亭流",30
+font FN,30
 pos 580,20
 mes titl
 	pos 566,262
-	font "ＤＦＰ勘亭流",20
+	font FN,20
 	mes nownp
 	mes nowms
 	mes nownp / 4
@@ -119,7 +121,7 @@ cls
 picload "Skin\\Taiko\\DanB.png"
 picload "Skin\\Taiko\\DanNP.png",81
 pos 73,403
-font "ＤＦＰ勘亭流",20
+font FN,20
 mes name
 mmload "Skin\\Taiko\\Dan.wav",82,1
 mmplay 82
@@ -144,7 +146,7 @@ stop
     sockopen 0,adr,port
     if stat : goto *offline
     pos 142,231
-    font "ＤＦＰ勘亭流",15
+    font FN,15
     mes "ランキングに接続中..."
     a=0
     wait 50
@@ -178,7 +180,7 @@ stop
 	wait 100
 *main
 	cls
-	font "ＤＦＰ勘亭流",20
+	font FN,20
 	mes "更新中です。しばらくお待ちください。"
 	sockopen 0,adr,port
 	chatil = ""
@@ -187,7 +189,7 @@ stop
 	wait 200
 	sockget chatli,256
 	cls
-    font "ＤＦＰ勘亭流",20
+    font FN,20
 	picload "Skin\\Taiko\\lobby.png",1
 	mmstop
 	pos 0,280
@@ -205,17 +207,17 @@ stop
 	stop
 *say
 	cls
-	font "ＤＦＰ勘亭流",20
+	font FN,20
 	mes "チャットを更新中です。しばらくお待ちください。"
     sockopen 0,adr,port
     jotai = "0"
 	sockput jotai
 	wait 200
-	font "ＤＦＰ勘亭流",15
+	font FN,15
 	contex = name + " >> " + contex
 	sockput contex
 	cls
-	font "ＤＦＰ勘亭流",20
+	font FN,20
 	mes "チャットを更新中です。しばらくお待ちください。"
 	wait 30
 	goto *main
@@ -244,16 +246,16 @@ stop
     dmmplay 0,demo
 	objsize 300,50
 	objmode 2
-	font "ＤＦＰ勘亭流",20
+	font FN,20
     button goto "デモ再生",*list
     objmode 2
-    font "ＤＦＰ勘亭流",20
+    font FN,20
     button goto "この曲で遊ぶ",*load
     gyou = notefind("TITLE:",1)
     if gyou = -1 : dialog "これは譜面ファイルではありません" : end
     noteget titl,gyou
     titl = strmid(titl,6,50)
-    font "ＤＦＰ勘亭流",30
+    font FN,30
     pos 300,0
     mes titl
     
@@ -261,7 +263,7 @@ stop
     noteget subtitl,subgyou
     subtitl = strmid(subtitl,9,50)
     if subgyou = -1 : subtitl = ""
-    font "ＤＦＰ勘亭流",15
+    font FN,15
     mes subtitl
     stop
 *load
@@ -270,14 +272,14 @@ stop
     if gyou = -1 : dialog "これは譜面ファイルではありません" : end
     noteget titl,gyou
     titl = strmid(titl,6,50)
-    font "ＤＦＰ勘亭流",30
+    font FN,30
     mes titl
     
     subgyou = notefind("SUBTITLE:",1)
     noteget subtitl,subgyou
     subtitl = strmid(subtitl,9,50)
     if subgyou = -1 : subtitl = ""
-    font "ＤＦＰ勘亭流",15
+    font FN,15
     mes subtitl
 
     bpmgyou = notefind("BPM:",1)
@@ -316,7 +318,7 @@ wait 100
 picload "Skin\\Taiko\\backtitle.png"
 picload "Skin\\Taiko\\offline.png",5
 pos 142,231
-font "ＤＦＰ勘亭流",15
+font FN,15
 mes "通信に失敗しました\nサーバまたはクライアントがオフライン、サーバーがメンテナンス中の可能性があります"
 mmload "Skin\\Taiko\\offline.wav",4
 mmplay 4
