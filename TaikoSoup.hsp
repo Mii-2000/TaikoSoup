@@ -41,8 +41,45 @@ noteload "debug.txt"
     button "段位道場",*Dan ;段位道場にgoto
     pos 255,340
     objsize 300,50
-    button "演奏ゲーム",*list ;演奏ゲームにgoto
+    button "メニュー(仮)",*MenuT ;メニューにGoto
     stop
+
+*MenuT
+	mmstop
+    title "TaikoSoup ～TJAシミュレータ～"
+    picload "Skin\\Taiko\\title.png"
+    picload "Skin\\Taiko\\BackNP.png",85
+    picload "Skin\\Taiko\\MT.png",191
+    pos 70,400
+    font FN,20
+    mes name
+    mmload "Skin\\Taiko\\title.wav",15,1
+    mmplay 15
+    onkey *Menu1
+    stop
+*Menu1
+	cls
+    pos 70,400
+    font FN,20
+    mes name
+    picload "Skin\\Taiko\\title.png"
+    picload "Skin\\Taiko\\BackNP.png",85
+	picload "Skin\\Taiko\\online.png",12
+	wait 50
+	picload "Skin\\Taiko\\onlineC.png",13
+	mmload "Skin\\Taiko\\OnlineC.wav",14
+	wait 50
+	goto *Menu2
+    stop
+*Menu2
+	cls
+	pos 382,261
+    font FN,20
+    mes name
+    picload "Skin\\Taiko\\title.png"
+    picload "Skin\\Taiko\\NPT.png",16
+	stop
+
 
 *Enso
 cls
